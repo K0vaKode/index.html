@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RevRunners Mobile Mechanics - Invoice Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #1a1a1a;
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            border-bottom: 4px solid #39ff14;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #39ff14;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 800;
+            text-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+        }
+
+        .header p {
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+
+        .form-section {
+            padding: 30px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: #39ff14;
+            border-radius: 2px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #39ff14;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(57, 255, 20, 0.15);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .items-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border-left: 4px solid #39ff14;
+        }
+
+        .item-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 12px;
+            margin-bottom: 15px;
+            align-items: center;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #1a1a1a;
+            color: #39ff14;
+            border: 2px solid #39ff14;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(57, 255, 20, 0.4);
+            background: #39ff14;
+            color: #1a1a1a;
+        }
+
+        .btn-danger {
+            background: #ff4757;
+            color: white;
+            padding: 10px 15px;
+        }
+
+        .btn-danger:hover {
+            background: #ff3838;
+        }
+
+        .btn-success {
+            background: #39ff14;
+            color: #1a1a1a;
+            border: 2px solid #39ff14;
+            font-weight: 700;
+        }
+
+        .btn-success:hover {
+            background: #32e012;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(57, 255, 20, 0.4);
+        }
+
+        .add-item-btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .totals-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: flex-end;
+            border-left: 4px solid #39ff14;
+        }
+
+        .totals-box {
+            width: 300px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .total-row.final {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            border-bottom: none;
+            border-top: 2px solid #39ff14;
+            margin-top: 10px;
+            padding-top: 15px;
+        }
+
+        .actions {
+            padding: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Invoice Preview - Screen Only */
+        .invoice-preview {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .preview-content {
+            background: white;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 50px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .close-preview {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+            z-index: 10;
+        }
+
+        .close-preview:hover {
+            color: #1a1a1a;
+        }
+
+        .print-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            z-index: 1001;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+
+            .form-section {
+                padding: 20px;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .item-row {
+                grid-template-columns: 1fr;
+                background: white;
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            }
+
+            .item-row input {
+                margin-bottom: 10px;
+            }
+
+            .totals-box {
+                width: 100%;
+            }
+
+            .actions {
+                padding: 20px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .preview-content {
+                margin: 20px;
+                padding: 25px;
+            }
+
+            .print-btn {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                margin: 20px auto;
+                display: block;
+            }
+        }
+
+        .currency-input {
+            position: relative;
+        }
+
+        .currency-input::before {
+            content: '£';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-weight: 600;
+        }
+
+        .currency-input input {
+            padding-left: 30px;
+        }
+
+        .date-input {
+            color: #333;
+        }
+
+        /* Animation for buttons */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <!-- Main App Interface -->
+    <div class="container">
+        <div class="header">
+            <h1>REPAIR ESTIMATE</h1>
+            <p>RevRunners Mobile Mechanics</p>
+        </div>
+
+        <div class="form-section">
+            <!-- Company & Client Info -->
+            <div class="grid-2">
+                <div>
+                    <div class="section-title">Your Business</div>
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" id="companyName" value="RevRunners Mobile Mechanics" placeholder="Your Company Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Your Email</label>
+                        <input type="email" id="companyEmail" placeholder="email@revrunners.co.uk">
+                    </div>
+                    <div class="form-group">
+                        <label>Your Phone</label>
+                        <input type="tel" id="companyPhone" placeholder="07700 900000">
+                    </div>
+                </div>
+                <div>
+                    <div class="section-title">Bill To</div>
+                    <div class="form-group">
+                        <label>Client Name</label>
+                        <input type="text" id="clientName" placeholder="Client Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Client Email</label>
+                        <input type="email" id="clientEmail" placeholder="client@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Invoice Date</label>
+                        <input type="date" id="invoiceDate" class="date-input">
+                         </div>
+                    <div class="form-group">
+                        <label>Invoice Registration</label>
+                        <input type="date" id="Registration" class="date-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Invoice Items -->
+            <div class="items-section">
+                <div class="section-title">Invoice Items</div>
+                <div id="itemsContainer">
+                    <!-- Items will be added here dynamically -->
+                </div>
+                <button class="btn btn-primary add-item-btn" onclick="addItem()">
+                    + Add Item
+                </button>
+            </div>
+
+            <!-- Totals -->
+            <div class="totals-section">
+                <div class="totals-box">
+                    <div class="total-row final">
+                        <span>Total:</span>
+                        <span id="total">£0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-success pulse" onclick="generateInvoice()">
+                📄 Generate Invoice
+            </button>
+            <button class="btn btn-primary" onclick="saveTemplate()">
+                💾 Save Template
+            </button>
+            <button class="btn btn-primary" onclick="loadTemplate()">
+                📂 Load Template
+            </button>
+            <button class="btn btn-danger" onclick="clearAll()">
+                🗑️ Clear All
+            </button>
+        </div>
+    </div>
+
+    <!-- Screen Preview Modal -->
+    <div id="previewModal" class="invoice-preview">
+        <div class="preview-content" id="previewContent">
+            <span class="close-preview" onclick="closePreview()">&times;</span>
+            <div id="previewBody">
+                <!-- Preview content generated here -->
+            </div>
+        </div>
+        <button class="btn btn-success print-btn" onclick="printInvoice()">
+            🖨️ Print / Save PDF
+        </button>
+    </div>
+
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('invoiceDate').valueAsDate = new Date();
+            addItem(); // Add first item row
+        });
+
+        let itemCount = 0;
+        // Stores everything needed to build the final printable invoice
+        let invoiceData = null;
+
+        function addItem() {
+            itemCount++;
+            const container = document.getElementById('itemsContainer');
+            const itemRow = document.createElement('div');
+            itemRow.className = 'item-row';
+            itemRow.id = `item-${itemCount}`;
+
+            itemRow.innerHTML = `
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" placeholder="Item description" class="item-desc">
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" value="1" min="1" class="item-qty" onchange="calculateTotals()">
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <div class="currency-input">
+                        <input type="number" placeholder="0.00" min="0" step="0.01" class="item-price" onchange="calculateTotals()">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="text" readonly class="item-amount" value="£0.00" style="background: #f0f0f0;">
+                </div>
+                <button class="btn btn-danger" onclick="removeItem(${itemCount})" style="height: 42px;">
+                    ✕
+                </button>
+            `;
+
+            container.appendChild(itemRow);
+        }
+
+        function removeItem(id) {
+            const item = document.getElementById(`item-${id}`);
+            if (document.querySelectorAll('.item-row').length > 1) {
+                item.remove();
+                calculateTotals();
+            } else {
+                alert('You must have at least one item!');
+            }
+        }
+
+        function calculateTotals() {
+            let subtotal = 0;
+            const rows = document.querySelectorAll('.item-row');
+
+            rows.forEach(row => {
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                const amount = qty * price;
+                subtotal += amount;
+                row.querySelector('.item-amount').value = '£' + amount.toFixed(2);
+            });
+
+            document.getElementById('total').textContent = '£' + subtotal.toFixed(2);
+        }
+
+        // Formats YYYY-MM-DD into DD/MM/YYYY by simple text rearrangement.
+        // No Date object is used, so the result is guaranteed in every browser.
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const parts = dateString.split('-');
+            if (parts.length !== 3) return dateString;
+            return parts[2] + '/' + parts[1] + '/' + parts[0];
+        }
+
+        function generateInvoice() {
+            const companyName = document.getElementById('companyName').value || 'RevRunners Mobile Mechanics';
+            const companyEmail = document.getElementById('companyEmail').value || '';
+            const companyPhone = document.getElementById('companyPhone').value || '';
+            const clientName = document.getElementById('clientName').value || 'Client';
+            const clientEmail = document.getElementById('clientEmail').value || '';
+            const rawDate = document.getElementById('invoiceDate').value;
+            const invoiceNumber = 'INV-' + Date.now().toString().slice(-6);
+
+            // Calculate totals and collect items
+            let subtotal = 0;
+            const items = [];
+
+            document.querySelectorAll('.item-row').forEach(row => {
+                const desc = row.querySelector('.item-desc').value || 'Item';
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                const amount = qty * price;
+                subtotal += amount;
+                items.push({ desc, qty, price, amount });
+            });
+
+            // Store everything the printer needs, including the FORMATTED date
+            invoiceData = {
+                companyName, companyEmail, companyPhone,
+                clientName, clientEmail,
+                date: formatDate(rawDate),
+                invoiceNumber, items, subtotal
+            };
+
+            // Screen preview HTML
+            const previewHtml = `
+                <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #1a1a1a;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #39ff14;">
+                        <div>
+                            <h2 style="font-size: 1.8rem; color: #1a1a1a; margin-bottom: 8px;">${companyName}</h2>
+                            <p style="color: #666; font-size: 0.95rem; margin: 2px 0;">${companyEmail}</p>
+                            <p style="color: #666; font-size: 0.95rem; margin: 2px 0;">${companyPhone}</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <h1 style="font-size: 2.2rem; color: #39ff14; text-transform: uppercase; margin-bottom: 10px;">INVOICE</h1>
+                            <p style="color: #1a1a1a; font-weight: 600; margin: 4px 0;">#${invoiceNumber}</p>
+                            <p style="color: #1a1a1a; margin: 4px 0;">Date: ${invoiceData.date}</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; margin: 30px 0; gap: 40px;">
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 0.85rem; text-transform: uppercase; margin-bottom: 10px;">FROM:</h3>
+                            <p style="font-size: 0.95rem; line-height: 1.6;">
+                                <strong style="font-size: 1.1rem; display: block; margin-bottom: 5px;">${companyName}</strong>
+                                ${companyEmail}<br>${companyPhone}
+                            </p>
+                        </div>
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 0.85rem; text-transform: uppercase; margin-bottom: 10px;">BILL TO:</h3>
+                            <p style="font-size: 0.95rem; line-height: 1.6;">
+                                <strong style="font-size: 1.1rem; display: block; margin-bottom: 5px;">${clientName}</strong>
+                                ${clientEmail}
+                            </p>
+                        </div>
+                    </div>
+
+                    <table style="width: 100%; border-collapse: collapse; margin: 30px 0;">
+                        <thead style="background: #1a1a1a;">
+                            <tr>
+                                <th style="color: #39ff14; padding: 15px; text-align: left; text-transform: uppercase; font-size: 0.85rem;">Description</th>
+                                <th style="color: #39ff14; padding: 15px; text-align: left; text-transform: uppercase; font-size: 0.85rem;">Quantity</th>
+                                <th style="color: #39ff14; padding: 15px; text-align: left; text-transform: uppercase; font-size: 0.85rem;">Unit Price</th>
+                                <th style="color: #39ff14; padding: 15px; text-align: left; text-transform: uppercase; font-size: 0.85rem;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${items.map(item => `
+                                <tr>
+                                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0;">${item.desc}</td>
+                                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0;">${item.qty}</td>
+                                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0;">£${item.price.toFixed(2)}</td>
+                                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0;">£${item.amount.toFixed(2)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+
+                    <div style="display: flex; justify-content: flex-end; margin-top: 30px;">
+                        <div style="border-top: 3px solid #39ff14; padding-top: 15px; min-width: 250px;">
+                            <div style="display: flex; justify-content: space-between; font-size: 1.3rem; font-weight: 700;">
+                                <span>Total:</span>
+                                <span>£${subtotal.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center;">
+                        <p style="color: #39ff14; font-weight: 600; font-size: 1rem; margin-bottom: 5px;">Thank you for choosing RevRunners Mobile Mechanics!</p>
+                        <small style="color: #888; font-size: 0.85rem;">We come to you - Professional automotive services at your location</small>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('previewBody').innerHTML = previewHtml;
+            document.getElementById('previewModal').style.display = 'block';
+        }
+
+        function closePreview() {
+            document.getElementById('previewModal').style.display = 'none';
+        }
+
+        // REWRITTEN: Builds a complete standalone invoice document (with the
+        // DD/MM/YYYY date baked in) and prints that directly. Nothing is
+        // hidden or toggled with CSS, so the date always appears in the PDF.
+        function printInvoice() {
+            if (!invoiceData) {
+                alert('Please click "Generate Invoice" first.');
+                return;
+            }
+
+            const d = invoiceData;
+
+            const itemRows = d.items.map(item => `
+                <tr>
+                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0; font-size: 0.95rem;">${item.desc}</td>
+                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0; font-size: 0.95rem;">${item.qty}</td>
+                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0; font-size: 0.95rem;">£${item.price.toFixed(2)}</td>
+                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0; font-size: 0.95rem;">£${item.amount.toFixed(2)}</td>
+                </tr>
+            `).join('');
+
+            const printDoc = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Invoice ${d.invoiceNumber}</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        color: #1a1a1a;
+        background: #ffffff;
+        padding: 40px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .print-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 3px solid #39ff14;
+    }
+    .print-company-info h2 { font-size: 1.8rem; margin-bottom: 8px; }
+    .print-company-info p { color: #666; font-size: 0.95rem; line-height: 1.5; margin: 2px 0; }
+    .print-invoice-title { text-align: right; }
+    .print-invoice-title h1 {
+        font-size: 2.2rem;
+        color: #39ff14;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-weight: 800;
+        margin: 0;
+    }
+    /* The invoice date - always visible, in DD/MM/YYYY */
+    .print-invoice-title p {
+        color: #1a1a1a;
+        font-size: 1rem;
+        margin: 5px 0 0 0;
+        font-weight: 600;
+    }
+    .print-details { display: flex; justify-content: space-between; margin: 30px 0; gap: 60px; }
+    .print-from, .print-to { flex: 1; }
+    .print-from h3, .print-to h3 {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    .print-from p, .print-to p { font-size: 0.95rem; line-height: 1.6; color: #333; margin: 3px 0; }
+    .print-from strong, .print-to strong { font-size: 1.1rem; display: block; margin-bottom: 5px; }
+    .print-table { width: 100%; border-collapse: collapse; margin: 30px 0; }
+    .print-table thead { background: #1a1a1a; }
+    .print-table th {
+        color: #39ff14;
+        padding: 15px;
+        text-align: left;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+    .print-table td { padding: 15px; border-bottom: 1px solid #e0e0e0; font-size: 0.95rem; }
+    .print-table tr:nth-child(even) { background: #fafafa; }
+    .print-totals { display: flex; justify-content: flex-end; margin-top: 30px; }
+    .print-total-box { border-top: 3px solid #39ff14; padding-top: 15px; min-width: 250px; }
+    .print-total-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+    .print-footer {
+        margin-top: 60px;
+        padding-top: 20px;
+        border-top: 1px solid #e0e0e0;
+        text-align: center;
+    }
+    .print-footer p { color: #39ff14; font-weight: 700; font-size: 1rem; margin-bottom: 5px; }
+    .print-footer small { color: #888; font-size: 0.85rem; }
+    @media print {
+        @page { margin: 0; size: auto; }
+        body { padding: 40px; }
+    }
+</style>
+</head>
+<body>
+    <div class="print-header">
+        <div class="print-company-info">
+            <h2>${d.companyName}</h2>
+            <p>${d.companyEmail}</p>
+            <p>${d.companyPhone}</p>
+        </div>
+        <div class="print-invoice-title">
+            <h1>INVOICE</h1>
+            <p>#${d.invoiceNumber}</p>
+            <p>Date: ${d.date}</p>
+        </div>
+    </div>
+
+    <div class="print-details">
+        <div class="print-from">
+            <h3>FROM:</h3>
+            <p>
+                <strong>${d.companyName}</strong>
+                ${d.companyEmail}<br>
+                ${d.companyPhone}
+            </p>
+        </div>
+        <div class="print-to">
+            <h3>BILL TO:</h3>
+            <p>
+                <strong>${d.clientName}</strong>
+                ${d.clientEmail}
+            </p>
+        </div>
+    </div>
+
+    <table class="print-table">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>${itemRows}</tbody>
+    </table>
+
+    <div class="print-totals">
+        <div class="print-total-box">
+            <div class="print-total-row">
+                <span>Total:</span>
+                <span>£${d.subtotal.toFixed(2)}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="print-footer">
+        <p>Thank you for choosing RevRunners Mobile Mechanics!</p>
+        <small>We come to you - Professional automotive services at your location</small>
+    </div>
+</body>
+</html>`;
+
+            const printWindow = window.open('', '_blank');
+            if (!printWindow) {
+                alert('Your browser blocked the print window. Please allow pop-ups for this page and try again.');
+                return;
+            }
+            printWindow.document.open();
+            printWindow.document.write(printDoc);
+            printWindow.document.close();
+            printWindow.focus();
+            // Give the document a moment to render before printing
+            setTimeout(function() {
+                printWindow.print();
+            }, 250);
+        }
+
+        function saveTemplate() {
+            const data = {
+                companyName: document.getElementById('companyName').value,
+                companyEmail: document.getElementById('companyEmail').value,
+                companyPhone: document.getElementById('companyPhone').value
+            };
+            localStorage.setItem('revrunnersTemplate', JSON.stringify(data));
+            alert('Template saved successfully!');
+        }
+
+        function loadTemplate() {
+            const saved = localStorage.getItem('revrunnersTemplate');
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.getElementById('companyName').value = data.companyName || 'RevRunners Mobile Mechanics';
+                document.getElementById('companyEmail').value = data.companyEmail || '';
+                document.getElementById('companyPhone').value = data.companyPhone || '';
+                alert('Template loaded!');
+            } else {
+                alert('No saved template found.');
+            }
+        }
+
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all data?')) {
+                document.getElementById('companyEmail').value = '';
+                document.getElementById('companyPhone').value = '';
+                document.getElementById('clientName').value = '';
+                document.getElementById('clientEmail').value = '';
+
+                document.getElementById('itemsContainer').innerHTML = '';
+                itemCount = 0;
+                addItem();
+                calculateTotals();
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('previewModal');
+            if (event.target === modal) {
+                closePreview();
+            }
+        }
+    </script>
+</body>
+</html>
