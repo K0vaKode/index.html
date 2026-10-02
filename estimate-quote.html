@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RevRunners Mobile Mechanics - Invoice Generator</title>
+    <title>RevRunners Mobile Mechanics - Repair Estimate</title>
     <style>
         * {
             margin: 0;
@@ -409,21 +409,26 @@
                         <label>Client Name</label>
                         <input type="text" id="clientName" placeholder="Client Name">
                     </div>
-                    <div class="form-group">
-                        <label>Client Email</label>
-                        <input type="email" id="clientEmail" placeholder="client@email.com">
+                    <div class="grid-2" style="gap: 12px; margin-bottom: 0;">
+                        <div class="form-group">
+                            <label>Client Email</label>
+                            <input type="email" id="clientEmail" placeholder="client@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Registration</label>
+                            <input type="text" id="registration" placeholder="e.g. AB12 CDE" style="text-transform: uppercase;">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>Invoice Date</label>
+                        <label>Estimate Date</label>
                         <input type="date" id="invoiceDate" class="date-input">
-                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Invoice Items -->
+            <!-- Repair Estimate Items -->
             <div class="items-section">
-                <div class="section-title">Invoice Items</div>
+                <div class="section-title">Repair Estimate Items</div>
                 <div id="itemsContainer">
                     <!-- Items will be added here dynamically -->
                 </div>
@@ -445,7 +450,7 @@
 
         <div class="actions">
             <button class="btn btn-success pulse" onclick="generateInvoice()">
-                📄 Generate Invoice
+                📄 Generate Repair Estimate
             </button>
             <button class="btn btn-primary" onclick="saveTemplate()">
                 💾 Save Template
@@ -557,6 +562,7 @@
             const companyPhone = document.getElementById('companyPhone').value || '';
             const clientName = document.getElementById('clientName').value || 'Client';
             const clientEmail = document.getElementById('clientEmail').value || '';
+            const registration = document.getElementById('registration').value.trim().toUpperCase();
             const rawDate = document.getElementById('invoiceDate').value;
             const invoiceNumber = 'INV-' + Date.now().toString().slice(-6);
 
@@ -576,7 +582,7 @@
             // Store everything the printer needs, including the FORMATTED date
             invoiceData = {
                 companyName, companyEmail, companyPhone,
-                clientName, clientEmail,
+                clientName, clientEmail, registration,
                 date: formatDate(rawDate),
                 invoiceNumber, items, subtotal
             };
@@ -591,7 +597,7 @@
                             <p style="color: #666; font-size: 0.95rem; margin: 2px 0;">${companyPhone}</p>
                         </div>
                         <div style="text-align: right;">
-                            <h1 style="font-size: 2.2rem; color: #39ff14; text-transform: uppercase; margin-bottom: 10px;">INVOICE</h1>
+                            <h1 style="font-size: 2.2rem; color: #39ff14; text-transform: uppercase; margin-bottom: 10px;">REPAIR ESTIMATE</h1>
                             <p style="color: #1a1a1a; font-weight: 600; margin: 4px 0;">#${invoiceNumber}</p>
                             <p style="color: #1a1a1a; margin: 4px 0;">Date: ${invoiceData.date}</p>
                         </div>
@@ -609,7 +615,8 @@
                             <h3 style="font-size: 0.85rem; text-transform: uppercase; margin-bottom: 10px;">BILL TO:</h3>
                             <p style="font-size: 0.95rem; line-height: 1.6;">
                                 <strong style="font-size: 1.1rem; display: block; margin-bottom: 5px;">${clientName}</strong>
-                                ${clientEmail}
+                                ${clientEmail}<br>
+                                <strong style="display: inline; font-size: 0.95rem;">Registration:</strong> ${registration || 'Not provided'}
                             </p>
                         </div>
                     </div>
@@ -664,7 +671,7 @@
         // hidden or toggled with CSS, so the date always appears in the PDF.
         function printInvoice() {
             if (!invoiceData) {
-                alert('Please click "Generate Invoice" first.');
+                alert('Please click "Generate Repair Estimate" first.');
                 return;
             }
 
@@ -683,7 +690,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Invoice ${d.invoiceNumber}</title>
+<title>Repair Estimate ${d.invoiceNumber}</title>
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -774,9 +781,9 @@
             <p>${d.companyPhone}</p>
         </div>
         <div class="print-invoice-title">
-            <h1>INVOICE</h1>
+            <h1>REPAIR ESTIMATE</h1>
             <p>#${d.invoiceNumber}</p>
-            <p>Date: ${d.date}</p>
+            <p>Estimate Date: ${d.date}</p>
         </div>
     </div>
 
@@ -793,7 +800,8 @@
             <h3>BILL TO:</h3>
             <p>
                 <strong>${d.clientName}</strong>
-                ${d.clientEmail}
+                ${d.clientEmail}<br>
+                <strong style="display: inline; font-size: 0.95rem;">Registration:</strong> ${d.registration || 'Not provided'}
             </p>
         </div>
     </div>
@@ -845,7 +853,8 @@
             const data = {
                 companyName: document.getElementById('companyName').value,
                 companyEmail: document.getElementById('companyEmail').value,
-                companyPhone: document.getElementById('companyPhone').value
+                companyPhone: document.getElementById('companyPhone').value,
+                registration: document.getElementById('registration').value
             };
             localStorage.setItem('revrunnersTemplate', JSON.stringify(data));
             alert('Template saved successfully!');
@@ -858,6 +867,7 @@
                 document.getElementById('companyName').value = data.companyName || 'RevRunners Mobile Mechanics';
                 document.getElementById('companyEmail').value = data.companyEmail || '';
                 document.getElementById('companyPhone').value = data.companyPhone || '';
+                document.getElementById('registration').value = data.registration || '';
                 alert('Template loaded!');
             } else {
                 alert('No saved template found.');
@@ -870,6 +880,7 @@
                 document.getElementById('companyPhone').value = '';
                 document.getElementById('clientName').value = '';
                 document.getElementById('clientEmail').value = '';
+                document.getElementById('registration').value = '';
 
                 document.getElementById('itemsContainer').innerHTML = '';
                 itemCount = 0;
