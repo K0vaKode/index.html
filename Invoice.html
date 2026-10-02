@@ -79,13 +79,6 @@
             margin-bottom: 25px;
         }
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 15px;
-            align-items: end;
-        }
-
         .form-group {
             display: flex;
             flex-direction: column;
@@ -285,256 +278,6 @@
             z-index: 1001;
         }
 
-        /* Print Styles - Clean Invoice Layout */
-        @media print {
-            @page {
-                margin: 0;
-                size: auto;
-            }
-            
-            body {
-                background: white;
-                padding: 0;
-                margin: 0;
-            }
-            
-            .container,
-            .invoice-preview,
-            .close-preview,
-            .print-btn,
-            .actions,
-            .form-section,
-            .header {
-                display: none !important;
-            }
-            
-            #printArea {
-                display: block !important;
-                position: static;
-                width: 100%;
-                margin: 0;
-                padding: 0;
-                background: white;
-                box-shadow: none;
-            }
-            
-            #printArea * {
-                visibility: visible;
-            }
-
-            .print-header {
-                background: white !important;
-                color: #1a1a1a !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .print-company-info h2 {
-                color: #1a1a1a !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .print-company-info p {
-                color: #666 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .print-invoice-title h1 {
-                color: #39ff14 !important;
-                background: white !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .print-invoice-title p {
-                color: #1a1a1a !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .print-table thead {
-                background: #1a1a1a !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .print-table th {
-                color: #39ff14 !important;
-                background: #1a1a1a !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-        }
-
-        /* Print Area Styles (Hidden on Screen) */
-        #printArea {
-            display: none;
-            background: white;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: #1a1a1a;
-        }
-
-        .print-page {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px;
-            background: white;
-        }
-
-        .print-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            background: white;
-            color: #1a1a1a;
-            padding: 0 0 20px 0;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #39ff14;
-        }
-
-        .print-company-info h2 {
-            font-size: 1.8rem;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .print-company-info p {
-            color: #666;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin: 2px 0;
-        }
-
-        .print-invoice-title {
-            text-align: right;
-        }
-
-        .print-invoice-title h1 {
-            font-size: 2.2rem;
-            color: #39ff14;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: 800;
-            margin: 0;
-            text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
-        }
-
-        .print-invoice-title p {
-            color: #1a1a1a;
-            font-size: 1rem;
-            margin: 5px 0 0 0;
-            font-weight: 600;
-        }
-
-        .print-details {
-            display: flex;
-            justify-content: space-between;
-            margin: 30px 0;
-            gap: 60px;
-        }
-
-        .print-from, .print-to {
-            flex: 1;
-        }
-
-        .print-from h3, .print-to h3 {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            color: #1a1a1a;
-            margin-bottom: 10px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .print-from p, .print-to p {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #333;
-            margin: 3px 0;
-        }
-
-        .print-from strong, .print-to strong {
-            font-size: 1.1rem;
-            color: #1a1a1a;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .print-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 30px 0;
-        }
-
-        .print-table thead {
-            background: #1a1a1a;
-        }
-
-        .print-table th {
-            color: #39ff14;
-            padding: 15px;
-            text-align: left;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .print-table td {
-            padding: 15px;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 0.95rem;
-        }
-
-        .print-table tr:nth-child(even) {
-            background: #fafafa;
-        }
-
-        .print-totals {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 30px;
-        }
-
-        .print-total-box {
-            border-top: 3px solid #39ff14;
-            padding-top: 15px;
-            min-width: 250px;
-        }
-
-        .print-total-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-
-        .print-footer {
-            margin-top: 60px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-            text-align: center;
-        }
-
-        .print-footer p {
-            color: #39ff14;
-            font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-
-        .print-footer small {
-            color: #888;
-            font-size: 0.85rem;
-        }
-
         /* Mobile Responsive */
         @media (max-width: 768px) {
             body {
@@ -554,7 +297,7 @@
                 padding: 20px;
             }
 
-            .grid-2, .grid-3 {
+            .grid-2 {
                 grid-template-columns: 1fr;
             }
 
@@ -728,69 +471,6 @@
         </button>
     </div>
 
-    <!-- Hidden Print Area (Only shows when printing) -->
-    <div id="printArea">
-        <div class="print-page">
-            <div class="print-header">
-                <div class="print-company-info">
-                    <h2 id="printCompanyName">RevRunners Mobile Mechanics</h2>
-                    <p id="printCompanyEmail">Revrunners@outlook.com</p>
-                    <p id="printCompanyPhone">07415454403</p>
-                </div>
-                <div class="print-invoice-title">
-                    <h1>INVOICE</h1>
-                    <p id="printInvoiceNumber">#INV-000000</p>
-                </div>
-            </div>
-
-            <div class="print-details">
-                <div class="print-from">
-                    <h3>FROM:</h3>
-                    <p>
-                        <strong id="printFromName">RevRunners Mobile Mechanics</strong>
-                        <span id="printFromEmail">Revrunners@outlook.com</span><br>
-                        <span id="printFromPhone">07415454403</span>
-                    </p>
-                </div>
-                <div class="print-to">
-                    <h3>BILL TO:</h3>
-                    <p>
-                        <strong id="printToName">Client Name</strong>
-                        <span id="printToEmail">client@email.com</span>
-                    </p>
-                </div>
-            </div>
-
-            <table class="print-table">
-                <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody id="printTableBody">
-                    <!-- Items inserted here -->
-                </tbody>
-            </table>
-
-            <div class="print-totals">
-                <div class="print-total-box">
-                    <div class="print-total-row">
-                        <span>Total:</span>
-                        <span id="printTotal">£0.00</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="print-footer">
-                <p>Thank you for choosing RevRunners Mobile Mechanics!</p>
-                <small>We come to you - Professional automotive services at your location</small>
-            </div>
-        </div>
-    </div>
-
     <script>
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
@@ -799,7 +479,8 @@
         });
 
         let itemCount = 0;
-        let currentInvoiceData = null;
+        // Stores everything needed to build the final printable invoice
+        let invoiceData = null;
 
         function addItem() {
             itemCount++;
@@ -807,7 +488,7 @@
             const itemRow = document.createElement('div');
             itemRow.className = 'item-row';
             itemRow.id = `item-${itemCount}`;
-            
+
             itemRow.innerHTML = `
                 <div class="form-group">
                     <label>Description</label>
@@ -831,7 +512,7 @@
                     ✕
                 </button>
             `;
-            
+
             container.appendChild(itemRow);
         }
 
@@ -848,7 +529,7 @@
         function calculateTotals() {
             let subtotal = 0;
             const rows = document.querySelectorAll('.item-row');
-            
+
             rows.forEach(row => {
                 const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
                 const price = parseFloat(row.querySelector('.item-price').value) || 0;
@@ -860,25 +541,27 @@
             document.getElementById('total').textContent = '£' + subtotal.toFixed(2);
         }
 
+        // Formats YYYY-MM-DD into DD/MM/YYYY by simple text rearrangement.
+        // No Date object is used, so the result is guaranteed in every browser.
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const parts = dateString.split('-');
+            if (parts.length !== 3) return dateString;
+            return parts[2] + '/' + parts[1] + '/' + parts[0];
+        }
+
         function generateInvoice() {
             const companyName = document.getElementById('companyName').value || 'RevRunners Mobile Mechanics';
             const companyEmail = document.getElementById('companyEmail').value || '';
             const companyPhone = document.getElementById('companyPhone').value || '';
             const clientName = document.getElementById('clientName').value || 'Client';
             const clientEmail = document.getElementById('clientEmail').value || '';
-            const date = document.getElementById('invoiceDate').value;
+            const rawDate = document.getElementById('invoiceDate').value;
             const invoiceNumber = 'INV-' + Date.now().toString().slice(-6);
 
-            // Store data for printing
-            currentInvoiceData = {
-                companyName, companyEmail, companyPhone,
-                clientName, clientEmail, date, invoiceNumber
-            };
-
-            // Calculate totals
+            // Calculate totals and collect items
             let subtotal = 0;
-            let itemsHtml = '';
-            let printItemsHtml = '';
+            const items = [];
 
             document.querySelectorAll('.item-row').forEach(row => {
                 const desc = row.querySelector('.item-desc').value || 'Item';
@@ -886,40 +569,16 @@
                 const price = parseFloat(row.querySelector('.item-price').value) || 0;
                 const amount = qty * price;
                 subtotal += amount;
-
-                // For screen preview
-                itemsHtml += `
-                    <tr>
-                        <td>${desc}</td>
-                        <td>${qty}</td>
-                        <td>£${price.toFixed(2)}</td>
-                        <td>£${amount.toFixed(2)}</td>
-                    </tr>
-                `;
-
-                // For print
-                printItemsHtml += `
-                    <tr>
-                        <td>${desc}</td>
-                        <td>${qty}</td>
-                        <td>£${price.toFixed(2)}</td>
-                        <td>£${amount.toFixed(2)}</td>
-                    </tr>
-                `;
+                items.push({ desc, qty, price, amount });
             });
 
-            // Update print area
-            document.getElementById('printCompanyName').textContent = companyName;
-            document.getElementById('printCompanyEmail').textContent = companyEmail;
-            document.getElementById('printCompanyPhone').textContent = companyPhone;
-            document.getElementById('printInvoiceNumber').textContent = '#' + invoiceNumber;
-            document.getElementById('printFromName').textContent = companyName;
-            document.getElementById('printFromEmail').textContent = companyEmail;
-            document.getElementById('printFromPhone').textContent = companyPhone;
-            document.getElementById('printToName').textContent = clientName;
-            document.getElementById('printToEmail').textContent = clientEmail;
-            document.getElementById('printTableBody').innerHTML = printItemsHtml;
-            document.getElementById('printTotal').textContent = '£' + subtotal.toFixed(2);
+            // Store everything the printer needs, including the FORMATTED date
+            invoiceData = {
+                companyName, companyEmail, companyPhone,
+                clientName, clientEmail,
+                date: formatDate(rawDate),
+                invoiceNumber, items, subtotal
+            };
 
             // Screen preview HTML
             const previewHtml = `
@@ -933,7 +592,7 @@
                         <div style="text-align: right;">
                             <h1 style="font-size: 2.2rem; color: #39ff14; text-transform: uppercase; margin-bottom: 10px;">INVOICE</h1>
                             <p style="color: #1a1a1a; font-weight: 600; margin: 4px 0;">#${invoiceNumber}</p>
-                            <p style="color: #1a1a1a; margin: 4px 0;">Date: ${date}</p>
+                            <p style="color: #1a1a1a; margin: 4px 0;">Date: ${invoiceData.date}</p>
                         </div>
                     </div>
 
@@ -964,7 +623,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            ${itemsHtml}
+                            ${items.map(item => `
+                                <tr>
+                                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0;">${item.desc}</td>
+                                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0;">${item.qty}</td>
+                                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0;">£${item.price.toFixed(2)}</td>
+                                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0;">£${item.amount.toFixed(2)}</td>
+                                </tr>
+                            `).join('')}
                         </tbody>
                     </table>
 
@@ -992,8 +658,186 @@
             document.getElementById('previewModal').style.display = 'none';
         }
 
+        // REWRITTEN: Builds a complete standalone invoice document (with the
+        // DD/MM/YYYY date baked in) and prints that directly. Nothing is
+        // hidden or toggled with CSS, so the date always appears in the PDF.
         function printInvoice() {
-            window.print();
+            if (!invoiceData) {
+                alert('Please click "Generate Invoice" first.');
+                return;
+            }
+
+            const d = invoiceData;
+
+            const itemRows = d.items.map(item => `
+                <tr>
+                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0; font-size: 0.95rem;">${item.desc}</td>
+                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0; font-size: 0.95rem;">${item.qty}</td>
+                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0; font-size: 0.95rem;">£${item.price.toFixed(2)}</td>
+                    <td style="padding: 15px; border-bottom: 1px solid #e0e0e0; font-size: 0.95rem;">£${item.amount.toFixed(2)}</td>
+                </tr>
+            `).join('');
+
+            const printDoc = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Invoice ${d.invoiceNumber}</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        color: #1a1a1a;
+        background: #ffffff;
+        padding: 40px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .print-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 3px solid #39ff14;
+    }
+    .print-company-info h2 { font-size: 1.8rem; margin-bottom: 8px; }
+    .print-company-info p { color: #666; font-size: 0.95rem; line-height: 1.5; margin: 2px 0; }
+    .print-invoice-title { text-align: right; }
+    .print-invoice-title h1 {
+        font-size: 2.2rem;
+        color: #39ff14;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-weight: 800;
+        margin: 0;
+    }
+    /* The invoice date - always visible, in DD/MM/YYYY */
+    .print-invoice-title p {
+        color: #1a1a1a;
+        font-size: 1rem;
+        margin: 5px 0 0 0;
+        font-weight: 600;
+    }
+    .print-details { display: flex; justify-content: space-between; margin: 30px 0; gap: 60px; }
+    .print-from, .print-to { flex: 1; }
+    .print-from h3, .print-to h3 {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    .print-from p, .print-to p { font-size: 0.95rem; line-height: 1.6; color: #333; margin: 3px 0; }
+    .print-from strong, .print-to strong { font-size: 1.1rem; display: block; margin-bottom: 5px; }
+    .print-table { width: 100%; border-collapse: collapse; margin: 30px 0; }
+    .print-table thead { background: #1a1a1a; }
+    .print-table th {
+        color: #39ff14;
+        padding: 15px;
+        text-align: left;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+    .print-table td { padding: 15px; border-bottom: 1px solid #e0e0e0; font-size: 0.95rem; }
+    .print-table tr:nth-child(even) { background: #fafafa; }
+    .print-totals { display: flex; justify-content: flex-end; margin-top: 30px; }
+    .print-total-box { border-top: 3px solid #39ff14; padding-top: 15px; min-width: 250px; }
+    .print-total-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+    .print-footer {
+        margin-top: 60px;
+        padding-top: 20px;
+        border-top: 1px solid #e0e0e0;
+        text-align: center;
+    }
+    .print-footer p { color: #39ff14; font-weight: 700; font-size: 1rem; margin-bottom: 5px; }
+    .print-footer small { color: #888; font-size: 0.85rem; }
+    @media print {
+        @page { margin: 0; size: auto; }
+        body { padding: 40px; }
+    }
+</style>
+</head>
+<body>
+    <div class="print-header">
+        <div class="print-company-info">
+            <h2>${d.companyName}</h2>
+            <p>${d.companyEmail}</p>
+            <p>${d.companyPhone}</p>
+        </div>
+        <div class="print-invoice-title">
+            <h1>INVOICE</h1>
+            <p>#${d.invoiceNumber}</p>
+            <p>Date: ${d.date}</p>
+        </div>
+    </div>
+
+    <div class="print-details">
+        <div class="print-from">
+            <h3>FROM:</h3>
+            <p>
+                <strong>${d.companyName}</strong>
+                ${d.companyEmail}<br>
+                ${d.companyPhone}
+            </p>
+        </div>
+        <div class="print-to">
+            <h3>BILL TO:</h3>
+            <p>
+                <strong>${d.clientName}</strong>
+                ${d.clientEmail}
+            </p>
+        </div>
+    </div>
+
+    <table class="print-table">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>${itemRows}</tbody>
+    </table>
+
+    <div class="print-totals">
+        <div class="print-total-box">
+            <div class="print-total-row">
+                <span>Total:</span>
+                <span>£${d.subtotal.toFixed(2)}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="print-footer">
+        <p>Thank you for choosing RevRunners Mobile Mechanics!</p>
+        <small>We come to you - Professional automotive services at your location</small>
+    </div>
+</body>
+</html>`;
+
+            const printWindow = window.open('', '_blank');
+            if (!printWindow) {
+                alert('Your browser blocked the print window. Please allow pop-ups for this page and try again.');
+                return;
+            }
+            printWindow.document.open();
+            printWindow.document.write(printDoc);
+            printWindow.document.close();
+            printWindow.focus();
+            // Give the document a moment to render before printing
+            setTimeout(function() {
+                printWindow.print();
+            }, 250);
         }
 
         function saveTemplate() {
@@ -1025,7 +869,7 @@
                 document.getElementById('companyPhone').value = '';
                 document.getElementById('clientName').value = '';
                 document.getElementById('clientEmail').value = '';
-                
+
                 document.getElementById('itemsContainer').innerHTML = '';
                 itemCount = 0;
                 addItem();
